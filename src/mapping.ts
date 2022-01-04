@@ -16,13 +16,8 @@ export function handleDepositEvent(event: DepositEvent): void {
     entity.tx = event.transaction.hash;
     entity.count = 0;
   }else {
-    const count = entity.count + 1;
-    entity = new Deposit(event.transaction.hash.toHex() + count.toString())
-    entity.from = event.transaction.from;
-    entity.value = event.transaction.value;
-    entity.timestamp = event.block.timestamp;
-    entity.tx = event.transaction.hash;
-    entity.count = count;
+    entity.count += 1;
+    entity.value = entity.value.plus(event.transaction.value);
   }
 
   // Entities can be written to the store with `.save()`
