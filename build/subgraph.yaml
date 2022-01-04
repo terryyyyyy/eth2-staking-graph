@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 schema:
-  file: ./schema.graphql
+  file: schema.graphql
 dataSources:
   - kind: ethereum/contract
     name: Eth2Deposit
@@ -17,8 +17,8 @@ dataSources:
         - DepositEvent
       abis:
         - name: Eth2Deposit
-          file: ./abis/Eth2Deposit.json
+          file: Eth2Deposit/abis/Eth2Deposit.json
       eventHandlers:
         - event: DepositEvent(bytes,bytes,bytes,bytes,bytes)
           handler: handleDepositEvent
-      file: ./src/mapping.ts
+      file: Eth2Deposit/Eth2Deposit.wasm
