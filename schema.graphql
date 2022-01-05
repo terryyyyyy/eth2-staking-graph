@@ -1,8 +1,14 @@
 type Deposit @entity {
   id: ID!
-  from: Bytes!
   value: BigInt!
   timestamp: BigInt!
   tx: Bytes!
+  count: Int!
+  amount: BigInt!
+  index: Int!
+}
+
+type TotalCount @entity {
+  id: ID!
   count: Int!
 }

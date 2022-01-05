@@ -16,11 +16,12 @@ export class Deposit extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
-    this.set("from", Value.fromBytes(Bytes.empty()));
     this.set("value", Value.fromBigInt(BigInt.zero()));
     this.set("timestamp", Value.fromBigInt(BigInt.zero()));
     this.set("tx", Value.fromBytes(Bytes.empty()));
     this.set("count", Value.fromI32(0));
+    this.set("amount", Value.fromBigInt(BigInt.zero()));
+    this.set("index", Value.fromI32(0));
   }
 
   save(): void {
@@ -49,15 +50,6 @@ export class Deposit extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get from(): Bytes {
-    let value = this.get("from");
-    return value!.toBytes();
-  }
-
-  set from(value: Bytes) {
-    this.set("from", Value.fromBytes(value));
-  }
-
   get value(): BigInt {
     let value = this.get("value");
     return value!.toBigInt();
@@ -83,6 +75,68 @@ export class Deposit extends Entity {
 
   set tx(value: Bytes) {
     this.set("tx", Value.fromBytes(value));
+  }
+
+  get count(): i32 {
+    let value = this.get("count");
+    return value!.toI32();
+  }
+
+  set count(value: i32) {
+    this.set("count", Value.fromI32(value));
+  }
+
+  get amount(): BigInt {
+    let value = this.get("amount");
+    return value!.toBigInt();
+  }
+
+  set amount(value: BigInt) {
+    this.set("amount", Value.fromBigInt(value));
+  }
+
+  get index(): i32 {
+    let value = this.get("index");
+    return value!.toI32();
+  }
+
+  set index(value: i32) {
+    this.set("index", Value.fromI32(value));
+  }
+}
+
+export class TotalCount extends Entity {
+  constructor(id: string) {
+    super();
+    this.set("id", Value.fromString(id));
+
+    this.set("count", Value.fromI32(0));
+  }
+
+  save(): void {
+    let id = this.get("id");
+    assert(id != null, "Cannot save TotalCount entity without an ID");
+    if (id) {
+      assert(
+        id.kind == ValueKind.STRING,
+        "Cannot save TotalCount entity with non-string ID. " +
+          'Considering using .toHex() to convert the "id" to a string.'
+      );
+      store.set("TotalCount", id.toString(), this);
+    }
+  }
+
+  static load(id: string): TotalCount | null {
+    return changetype<TotalCount | null>(store.get("TotalCount", id));
+  }
+
+  get id(): string {
+    let value = this.get("id");
+    return value!.toString();
+  }
+
+  set id(value: string) {
+    this.set("id", Value.fromString(value));
   }
 
   get count(): i32 {
