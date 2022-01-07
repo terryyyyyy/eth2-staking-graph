@@ -16,10 +16,9 @@ export class Deposit extends Entity {
     super();
     this.set("id", Value.fromString(id));
 
-    this.set("value", Value.fromBigInt(BigInt.zero()));
+    this.set("from", Value.fromBytes(Bytes.empty()));
     this.set("timestamp", Value.fromBigInt(BigInt.zero()));
     this.set("tx", Value.fromBytes(Bytes.empty()));
-    this.set("count", Value.fromI32(0));
     this.set("amount", Value.fromBigInt(BigInt.zero()));
     this.set("index", Value.fromI32(0));
   }
@@ -50,13 +49,13 @@ export class Deposit extends Entity {
     this.set("id", Value.fromString(value));
   }
 
-  get value(): BigInt {
-    let value = this.get("value");
-    return value!.toBigInt();
+  get from(): Bytes {
+    let value = this.get("from");
+    return value!.toBytes();
   }
 
-  set value(value: BigInt) {
-    this.set("value", Value.fromBigInt(value));
+  set from(value: Bytes) {
+    this.set("from", Value.fromBytes(value));
   }
 
   get timestamp(): BigInt {
@@ -75,15 +74,6 @@ export class Deposit extends Entity {
 
   set tx(value: Bytes) {
     this.set("tx", Value.fromBytes(value));
-  }
-
-  get count(): i32 {
-    let value = this.get("count");
-    return value!.toI32();
-  }
-
-  set count(value: i32) {
-    this.set("count", Value.fromI32(value));
   }
 
   get amount(): BigInt {
